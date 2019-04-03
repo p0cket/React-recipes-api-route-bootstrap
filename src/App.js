@@ -15,16 +15,18 @@ class App extends Component {
   getRecipe = async (e) => {
     const recipeName = e.target.elements.recipeName.value;
     e.preventDefault();
-    const api_call = await fetch(`https://www.food2fork.com/api/search?key=${API_KEY}&q=${recipeName}&count=10`);
+    const res = await fetch(`https://www.food2fork.com/api/search?key=${API_KEY}&q=${recipeName}&count=10`);
 
-    const data = await api_call.json();
+    const data = await res.json();
     this.setState({ recipes: data.recipes });
   }
 
   componentDidMount = () => {
     const json = localStorage.getItem("recipes");
-    const recipes = JSON.parse(json);
-    this.setState({recipes});
+    if(json) {
+      const recipes = JSON.parse(json);
+      this.setState({recipes});
+    }
   }
 
   componentDidUpdate = () => {
